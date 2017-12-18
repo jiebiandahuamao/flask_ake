@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{#<head>#}
+{#	<meta charset="utf-8">#}
+{#	<title>用户总数--layui后台管理模板</title>#}
+{#	<meta name="renderer" content="webkit">#}
+{#	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">#}
+{#	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">#}
+{#	<meta name="apple-mobile-web-app-status-bar-style" content="black">#}
+{#	<meta name="apple-mobile-web-app-capable" content="yes">#}
+{#	<meta name="format-detection" content="telephone=no">#}
+{% block css %}
+	<link rel="stylesheet" href="{{ url_for('static',filename='layui/css/layui.css')}}" media="all" />
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/user.css')}}" media="all" />
+     <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css')}}" media="all" />
+{% endblock %}
+
+{#</head>#}
+{% block main %}
+
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote news_search">
+		<div class="layui-inline">
+        <form class="layui-form" method="get" action="{{ url_for('userlist') }}">
+		    <div class="layui-input-inline">
+		    	<input type="text" name="idphone" value="{{ formdata }}" placeholder="卡号/电话" class="layui-input search_input">
+		    </div>
+		    <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
+        </form>
+		</div>
+
+		<div class="layui-inline">
+			<a href="{{ url_for('useradd') }}" class="layui-btn layui-btn-normal usersAdd_btn">添加用户</a>
+		</div>
+		<div class="layui-inline">
+			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
+		</div>
+		<div class="layui-inline">
+			<div class="layui-form-mid layui-word-aux">　本页面刷新后除新添加的文章外所有操作无效，关闭页面所有数据重置</div>
+		</div>
+	</blockquote>
+	<div class="layui-form users_list">
+	  	<table class="layui-table">
+		    <colgroup>
+				<col width="50">
+				<col >
+				<col width="20%">
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+				<col width="12%">
+				<col width="10%">
+		    </colgroup>
+		    <thead>
+				<tr>
+					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+					<th>卡号</th>
+					<th>姓名</th>
+                    <th>性别</th>
+					<th>钱包</th>
+					<th>vip</th>
+					<th>手机号</th>
+					<th>等级</th>
+					<th>时间</th>
+				</tr> 
+		    </thead>
+            {% for user in pagination.items %}
+		    <tbody class="users_content">
+            <td><a href="{{ url_for('userInfo', id_card=user.id_card, next=request.path) }}">up </a></td>
+            <td>{{ user.id_card }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.sex }}</td>
+            <td>{{ user.amount }}</td>
+            <td>{{ user.vip }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.note }}</td>
+            <td>{{ user.create_time }}</td>
+            </tbody>
+            {% endfor %}
+		</table>
+	</div>
+    <div id='page_users'>
+        {% from "macros.html" import render_pagination %}
+        {{ render_pagination(pagination, 'userlist') }}
+    </div>
+
+   </body>
+
+{% endblock %}
+
+    {% block js %}
+    <script type="text/javascript" src="{{ url_for('static',filename='layui/layui.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/user/allUsers.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js')}}"></script>
+{% endblock %}
+
+
+{#</html>#}
