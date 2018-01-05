@@ -51,15 +51,37 @@ def login():
 
 
 @app.route('/userInfo', methods=['GET', 'POST'])
-
 def userInfo():
-    data = request.args.get('id_card', '', type=str)
-    # 返回
-    formdata = data
+    data = request.args.get('user_id', '', type=str)
+    user_info = get_user_row_by_id(data)
 
-    user_info = get_user_row(User.id_card==data)
+    if request.method == 'POST':
 
-    return render_template('user/userInfo.html',user_info=user_info,formdata=formdata)
+        user_id = request.form['user_id']
+        username = request.form['username']
+        id_card = request.form['id_card']
+        amount = request.form['amount']
+        sex = request.form['sex']
+        phone = request.form['phone']
+        # isvip = request.form['isvip']
+        note = request.form['note']
+
+        user_info = get_user_row_by_id(user_id)
+        if user_info:
+            userdata = {
+                'username': username,
+                'id_card': id_card,
+                'phone': phone,
+                'amount': amount,
+                'note': note,
+                # 'sex':str(sex),
+                # 'create_time':createtime
+            }
+            edit_user(user_id,userdata)
+        else:
+            flash('no user')
+
+    return render_template('user/userInfo.html',user_info=user_info)
 
 
 # 会员添加
@@ -72,7 +94,6 @@ def useradd():
         amount = request.form['amount']
         sex = request.form['sex']
         phone = request.form['phone']
-        # createtime = request.form['createtime']
         # isvip = request.form['isvip']
         note = request.form['note']
 
@@ -94,6 +115,7 @@ def useradd():
                 # 'create_time':createtime
             }
             add_user(userdata)
+            flash('add user success!')
     else:
         pass
     return render_template('links/userAdd.html')
@@ -105,20 +127,18 @@ def useradd():
 @app.route('/allUsers/<int:page>/')
 def userlist(page=1):
 
-
     data = request.args.get('idphone', '', type=str)
     # 返回
     formdata = data
     con = []
     if data:
-        con.append(User.phone==data)
+        con.append(User.id_card==data)
     try:
         pagination = User.query. \
             filter(*con).\
             order_by(User.id.desc()).\
-            paginate(page, 20, False)
+            paginate(page, 25, False)
         db.session.commit()
-        print pagination
         return render_template('user/allUsers.html', pagination=pagination,formdata=formdata)
     except Exception as e:
         print e
@@ -154,7 +174,7 @@ def wallet_list(page=1):
         pagination = Wallet.query. \
             filter(*con). \
             order_by(Wallet.id.desc()).\
-            paginate(page, 10, False)
+            paginate(page, 20, False)
         db.session.commit()
 
         return render_template('news/walletList.html',pagination=pagination,formdata=formdata)
@@ -182,7 +202,7 @@ def wallte():
             return redirect(url_for('main'))
         formdata = user_info.phone
 
-        wallet_amount = user_info.amount - int(wallet if wallet else 0)
+        wallet_amount = float(user_info.amount) - float(wallet if wallet else 0)
 
         if wallet_amount > 0:
             user_data = {
@@ -193,7 +213,7 @@ def wallte():
             wallet_data = {
                 'username': user_info.username,
                 'id_card': int(user_info.id_card),
-                'amount': int(wallet if wallet else 0),
+                'amount': float(wallet if wallet else 0),
                 'vip': user_info.vip,
             }
             result = add_wallet(wallet_data)

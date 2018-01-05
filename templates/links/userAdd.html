@@ -1,20 +1,11 @@
 {% extends'base.html' %}
-{#<head>#}
-{#	<meta charset="utf-8">#}
-{#	<title>个人资料--layui后台管理模板</title>#}
-{#	<meta name="renderer" content="webkit">#}
-{#	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">#}
-{#	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">#}
-{#	<meta name="apple-mobile-web-app-status-bar-style" content="black">#}
-{#	<meta name="apple-mobile-web-app-capable" content="yes">#}
-{#	<meta name="format-detection" content="telephone=no">#}
+
     {% block css %}
     	<link rel="stylesheet" href="{{ url_for('static',filename='layui/css/layui.css')}}" media="all" />
 	    <link rel="stylesheet" href="{{ url_for('static',filename='css/user.css')}}" media="all" />
         <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css')}}" media="all" />
     {% endblock %}
 
-{#</head>#}
 {% block main %}
 <body class="childrenBody">
 	<form class="layui-form" method="post" action="{{ url_for('useradd') }}">
@@ -51,51 +42,12 @@
 			    	<input type="tel" value="" placeholder="请输入手机号码" name="phone" lay-verify="required|phone" class="layui-input userPhone">
 			    </div>
 			</div>
-{#			<div class="layui-form-item">#}
-{#			    <label class="layui-form-label">创建时间</label>#}
-{#			    <div class="layui-input-block">#}
-{#			    	<input type="text" value="" placeholder="time" name='createtime' lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">#}
-{#			    </div>#}
-{#			</div>#}
-{#			<div class="layui-form-item userAddress">#}
-{#			    <label class="layui-form-label">家庭住址</label>#}
-{#			    <div class="layui-input-inline">#}
-{#	                <select name="province" lay-filter="province">#}
-{#	                    <option value="">请选择省</option>#}
-{#	                </select>#}
-{#	            </div>#}
-{#	            <div class="layui-input-inline">#}
-{#	                <select name="city" lay-filter="city" disabled>#}
-{#	                    <option value="">请选择市</option>#}
-{#	                </select>#}
-{#	            </div>#}
-{#	            <div class="layui-input-inline">#}
-{#	                <select name="area" lay-filter="area" disabled>#}
-{#	                    <option value="">请选择县/区</option>#}
-{#	                </select>#}
-{#	            </div>#}
-{#			</div>#}
 			<div class="layui-form-item">
 			    <label class="layui-form-label">vip</label>
 			    <div class="layui-input-block userHobby">
 			    	<input type="checkbox" name="isvip" title="vip顾客">
-{#				    <input type="checkbox" name="like[html]" title="价格实惠">#}
-{#				    <input type="checkbox" name="like[css]" title="创新">#}
-{#				    <input type="checkbox" name="like[php]" title="就近">#}
-{#				    <input type="checkbox" name="like[.net]" title="老顾客">#}
-{#				    <input type="checkbox" name="like[ASP]" title="ASP">#}
-{#				    <input type="checkbox" name="like[C#]" title="C#">#}
-{#				    <input type="checkbox" name="like[Angular]" title="Angular">#}
-{#				    <input type="checkbox" name="like[VUE]" title="VUE">#}
-{#				    <input type="checkbox" name="like[XML]" title="XML">#}
 			    </div>
 			</div>
-{#			<div class="layui-form-item">#}
-{#			    <label class="layui-form-label">邮箱</label>#}
-{#			    <div class="layui-input-block">#}
-{#			    	<input type="text" value="" placeholder="请输入邮箱" lay-verify="required|email" class="layui-input userEmail">#}
-{#			    </div>#}
-{#			</div>#}
 			<div class="layui-form-item">
 			    <label class="layui-form-label">备注</label>
 			    <div class="layui-input-block">
@@ -117,9 +69,9 @@
 	</form>
     {% endblock %}
     {% block js %}
-    <script type="text/javascript" src="{{ url_for('static',filename='layui/layui.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static',filename='js/user/address.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static',filename='js/user/user.js') }}"></script>
+{#    <script type="text/javascript" src="{{ url_for('static',filename='layui/layui.js') }}"></script>#}
+{#	<script type="text/javascript" src="{{ url_for('static',filename='js/user/address.js') }}"></script>#}
+{#	<script type="text/javascript" src="{{ url_for('static',filename='js/user/user.js') }}"></script>#}
     <script type="text/javascript" src="{{ url_for('static',filename='js/main.js')}}"></script>
     {% endblock %}
 
