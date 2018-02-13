@@ -115,9 +115,9 @@
                             {# 闪现消息 success info warning danger #}
                            {% with messages = get_flashed_messages(with_categories=true) %}
                               {% if messages %}
-                                <ul class=flashes>
+                                <ul id="Message-icon">
                                 {% for category, message in messages %}
-                                  <li class="{{ category }}">{{ message }}</li>
+                                  <li class="">{{ message }}</li>
                                 {% endfor %}
                                 </ul>
                               {% endif %}
@@ -142,10 +142,17 @@
 	<div class="site-mobile-shade"></div>
 {#    {% block main %}  {% endblock %}#}
 
-
-
     <script type="text/javascript" src="{{ url_for('static',filename='layui/layui.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='js/leftNav.js') }}"></script>
+    <script>
+    /**
+    * 闪现消息自动关闭
+    */
+    function test() {
+        document.getElementById("Message-icon").style.display="none";
+    }
+    setTimeout("test()","2000");
+    </script>
     {% block js %}{% endblock %}
 
 </body>

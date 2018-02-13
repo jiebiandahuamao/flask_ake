@@ -5,7 +5,20 @@
 .childrenBody{ margin:10px 10px 0; }
 .layui-table td, .layui-table th{ word-break:break-all; }
 /*文字选中背景色*/
-::selection{background:#ff5722; color:#fff;}
+::selection{background:#ff5722; cfont-weight: 900olor:#fff;}
 /*表格中的操作按钮样式问题*/
 .layui-table .layui-btn, .layui-table .layui-btn+.layui-btn{ margin:2px 5px; }
 .layui-inline{ margin:5px 5px 5px 0; }
+
+/*自定义*/
+#Message-icon {
+    display: block;
+    width: 300px;
+    padding: 30px;
+    text-align: center;
+    background-color: #3CB371;
+}
+#Message-icon > li{
+    font-size: large;
+    font-weight: 900
+}
