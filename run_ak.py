@@ -36,7 +36,10 @@ def main():
     data = request.args.get('idphone', '', type=str)
     # 返回
     formdata = data
-    user_info = get_user_row(User.phone==data or User.id_card==data)
+    if len(data)==11:
+        user_info = get_user_row(User.phone==data)
+    else:
+        user_info = get_user_row(User.id_card == data)
     if not user_info:
         error = u'无该用户信息！'
     else:
@@ -52,46 +55,56 @@ def login():
 
 @app.route('/userInfo', methods=['GET', 'POST'])
 def userInfo():
+
     data = request.args.get('user_id', '', type=str)
     user_info = get_user_row_by_id(data)
 
     if request.method == 'POST':
-
         user_id = request.form['user_id']
         username = request.form['username']
         id_card = request.form['id_card']
         amount = request.form['amount']
         sex = request.form['sex']
         phone = request.form['phone']
-        # isvip = request.form['isvip']
+        isvip = request.form['isvip']
         note = request.form['note']
+        user_pro = get_user_row_by_id(user_id)
+        flag = True
 
-        get_userinfo1 = get_user_row(User.id_card == id_card)
-        get_userinfo2 = get_user_row(User.phone == phone)
+        if user_pro.id_card != long(id_card):
+            if get_user_row(User.id_card == long(id_card)):
+                flag = False
+                flash(u'卡号 已存在 不能重复!')
 
-        if get_userinfo1:
-            flash(u'卡号 已存在 不能重复!')
-        elif get_userinfo2:
-            flash(u'该电话号码已存在,请确认!')
+        if user_pro.phone != phone:
+            if get_user_row(User.phone == phone):
+                flag = False
+                flash(u'该电话号码已存在,请确认!')
+
+        if isvip =='on':
+            vip=1
         else:
-            user_info = get_user_row_by_id(user_id)
+            vip=0
 
-        if user_info:
+        if flag == True:
             userdata = {
                 'username': username,
                 'id_card': id_card,
                 'phone': phone,
                 'amount': amount,
                 'note': note,
+                'vip':vip,
                 # 'sex':str(sex),
                 # 'create_time':createtime
             }
-            edit_user(user_id,userdata)
+            edit_user(user_id, userdata)
             flash(u'修改用户信息成功')
         else:
-            flash(u'无此用户信息')
-
-    return render_template('user/userInfo.html',user_info=user_info)
+            flash(u'修改用户信息失败')
+        user_info = get_user_row_by_id(user_id)
+    else:
+        pass
+    return render_template('user/userInfo.html', user_info=user_info)
 
 
 # 会员添加
@@ -104,16 +117,21 @@ def useradd():
         amount = request.form['amount']
         sex = request.form['sex']
         phone = request.form['phone']
-        # isvip = request.form['isvip']
+        isvip = request.form['isvip']
         note = request.form['note']
 
         get_userinfo1 = get_user_row(User.id_card == id_card)
         get_userinfo2 = get_user_row(User.phone == phone)
 
+        if isvip == 'on':
+            vip = 1
+        else:
+            vip = 0
+
         if get_userinfo1:
-            flash('id yicunzai')
+            flash(u'卡号 已存在 不能重复!')
         elif get_userinfo2:
-            flash('phone yicunzai')
+            flash(u'该电话号码已存在,请确认!')
         else:
             userdata = {
                 'username': username,
@@ -121,6 +139,7 @@ def useradd():
                 'phone': phone,
                 'amount': amount,
                 'note': note,
+                'vip':vip,
                 # 'sex':str(sex),
                 # 'create_time':createtime
             }
@@ -149,6 +168,8 @@ def userlist(page=1):
             order_by(User.id.desc()).\
             paginate(page, 25, False)
         db.session.commit()
+        for i in pagination.items:
+            print i.amount,"************"
         return render_template('user/allUsers.html', pagination=pagination,formdata=formdata)
     except Exception as e:
         print e
@@ -214,7 +235,7 @@ def wallte():
 
         wallet_amount = float(user_info.amount) - float(wallet if wallet else 0)
 
-        if wallet_amount > 0:
+        if wallet_amount >= 0:
             user_data = {
                 'amount':wallet_amount,
             }
@@ -231,7 +252,7 @@ def wallte():
                 flash(u'用户消费%s元' % wallet)
         else:
             flash(u'用户剩余金额不够了!')
-            return redirect(url_for('main'))
+            # return redirect(url_for('main'))
     else:
         user_info = ''
         formdata = ''

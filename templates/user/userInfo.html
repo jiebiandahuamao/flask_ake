@@ -8,7 +8,7 @@
 
 {% block main %}
 <body class="childrenBody">
-	<form class="layui-form" method="post" action="{{ url_for('userInfo') }}">
+	<form class="layui-form" method="POST" action="{{ url_for('userInfo') }}">
 		<div class="user_left">
 			<div class="layui-form-item">
 			    <label class="layui-form-label">姓名</label>
@@ -52,7 +52,11 @@
 			<div class="layui-form-item">
 			    <label class="layui-form-label">vip</label>
 			    <div class="layui-input-block userHobby">
-			    	<input type="checkbox" name="isvip" title="vip顾客">
+                    {% if user_info.vip == 1%}
+			    	<input type="checkbox" name="isvip" title="vip顾客" checked>
+                    {% else %}
+                    <input type="checkbox" name="isvip" title="vip顾客">
+                    {% endif %}
 			    </div>
 			</div>
 			<div class="layui-form-item">
@@ -71,7 +75,7 @@
 		</div>
 		<div class="layui-form-item" style="margin-left: 5%;">
 		    <div class="layui-input-block">
-		    	<button class="layui-btn" lay-submit="" lay-filter="changeUser">立即提交</button>
+		    	<button class="layui-btn" type = 'submit'>修改</button>
 				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 		    </div>
 		</div>

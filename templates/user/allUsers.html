@@ -63,7 +63,7 @@
             <td>{{ user.username }}</td>
             <td>{{ user.sex }}</td>
             <td>{{ user.amount }}</td>
-            <td>{{ user.vip }}</td>
+            <td>{% if user.vip ==1 %}yes{% else %}no{% endif %}</td>
             <td>{{ user.phone }}</td>
             <td>{{ user.note }}</td>
             <td>{{ user.create_time }}</td>
@@ -81,8 +81,8 @@
 {% endblock %}
 
     {% block js %}
-    <script type="text/javascript" src="{{ url_for('static',filename='layui/layui.js')}}"></script>
-	<script type="text/javascript" src="{{ url_for('static',filename='js/user/allUsers.js')}}"></script>
+{#    <script type="text/javascript" src="{{ url_for('static',filename='layui/layui.js')}}"></script>#}
+{#	<script type="text/javascript" src="{{ url_for('static',filename='js/user/allUsers.js')}}"></script>#}
     <script type="text/javascript" src="{{ url_for('static',filename='js/main.js')}}"></script>
 {% endblock %}
 
