@@ -52,7 +52,7 @@ def main():
 def login():
     return render_template('login/login.html')
 
-
+#修改用户信息
 @app.route('/userInfo', methods=['GET', 'POST'])
 def userInfo():
 
@@ -64,7 +64,6 @@ def userInfo():
         username = request.form['username']
         id_card = request.form['id_card']
         amount = request.form['amount']
-        sex = request.form['sex']
         phone = request.form['phone']
         isvip = request.form['isvip']
         note = request.form['note']
@@ -94,8 +93,6 @@ def userInfo():
                 'amount': amount,
                 'note': note,
                 'vip':vip,
-                # 'sex':str(sex),
-                # 'create_time':createtime
             }
             edit_user(user_id, userdata)
             flash(u'修改用户信息成功')
@@ -115,7 +112,6 @@ def useradd():
         username = request.form['username']
         id_card = request.form['id_card']
         amount = request.form['amount']
-        sex = request.form['sex']
         phone = request.form['phone']
         isvip = request.form['isvip']
         note = request.form['note']
@@ -140,14 +136,29 @@ def useradd():
                 'amount': amount,
                 'note': note,
                 'vip':vip,
-                # 'sex':str(sex),
-                # 'create_time':createtime
             }
             add_user(userdata)
-            flash('add user success!')
+            flash(u'添加用户成功!')
     else:
         pass
     return render_template('links/userAdd.html')
+
+#会员删除
+@app.route('/userdel', methods=['GET', 'POST'])
+def userdel():
+
+    data = request.args.get('user_id', '', type=str)
+    user_info = get_user_row_by_id(data)
+    if user_info:
+        user_data = {
+            'dele': 1
+        }
+        edit_user(data,user_data)
+        flash(u"删除用户成功!")
+    else:
+        flash(u'无此用户信息')
+
+    return redirect(url_for('userlist'))
 
 
 
@@ -159,7 +170,7 @@ def userlist(page=1):
     data = request.args.get('idphone', '', type=str)
     # 返回
     formdata = data
-    con = []
+    con = [User.dele == 0]
     if data:
         con.append(User.phone==data or User.id_card==data)
     try:
@@ -168,8 +179,7 @@ def userlist(page=1):
             order_by(User.id.desc()).\
             paginate(page, 25, False)
         db.session.commit()
-        for i in pagination.items:
-            print i.amount,"************"
+
         return render_template('user/allUsers.html', pagination=pagination,formdata=formdata)
     except Exception as e:
         print e
@@ -229,7 +239,7 @@ def wallte():
         user_info = get_user_row(User.id_card == id_card)
 
         if not user_info:
-            flash('no men','error')
+            flash(u'无此用户信息')
             return redirect(url_for('main'))
         formdata = user_info.phone
 
@@ -258,6 +268,14 @@ def wallte():
         formdata = ''
 
     return render_template('main.html', user_info=user_info,formdata=formdata)
+
+#会员充值
+@app.route('/add_wallte', methods=['GET', 'POST'])
+def add_wallte():
+
+    data = request.args.get('add_money', '', type=str)
+    print data
+    return 0
 
 
 if __name__ == '__main__':

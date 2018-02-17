@@ -57,9 +57,10 @@
 		    </colgroup>
 		    <thead>
 				<tr>
-					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-					<th >姓名</th>
-					<th>id_cart</th>
+{#					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>#}
+					<th>编号</th>
+                    <th >姓名</th>
+					<th>卡号</th>
 					<th>消费金额</th>
 					<th>vip</th>
 					<th>消费时间</th>
@@ -68,11 +69,11 @@
 		    </thead>
             {% for user in pagination.items %}
 		    <tbody class="news_content"></tbody>
-            <td></td>
+            <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.id_card }}</td>
             <td>{{ user.amount }}</td>
-            <td>{{ user.vip }}</td>
+            <td>{% if user.vip==1 %}yes{% else %}no{% endif %} </td>
             <td>{{ user.create_time}}</td>
             </tbody>
             {% endfor %}

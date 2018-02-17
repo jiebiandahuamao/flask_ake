@@ -24,9 +24,9 @@
 		<div class="layui-inline">
 			<a href="{{ url_for('useradd') }}" class="layui-btn layui-btn-normal usersAdd_btn">添加用户</a>
 		</div>
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-		</div>
+{#		<div class="layui-inline">#}
+{#			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>#}
+{#		</div>#}
 		<div class="layui-inline">
 {#			<div class="layui-form-mid layui-word-aux">　本页面刷新后除新添加的文章外所有操作无效，关闭页面所有数据重置</div>#}
 		</div>
@@ -34,9 +34,9 @@
 	<div class="layui-form users_list">
 	  	<table class="layui-table">
 		    <colgroup>
-				<col width="50">
 				<col >
-				<col width="20%">
+				<col >
+				<col width="10%">
 				<col width="10%">
 				<col width="10%">
 				<col width="10%">
@@ -45,10 +45,10 @@
 		    </colgroup>
 		    <thead>
 				<tr>
-					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-					<th>卡号</th>
+					<th>修改</th>
+					<th>删除</th>
+                    <th>卡号</th>
 					<th>姓名</th>
-                    <th>性别</th>
 					<th>钱包</th>
 					<th>vip</th>
 					<th>手机号</th>
@@ -59,9 +59,9 @@
             {% for user in pagination.items %}
 		    <tbody class="users_content">
             <td><a href="{{ url_for('userInfo', user_id=user.id, next=request.path) }}">up </a></td>
+            <td><a href="{{ url_for('userdel', user_id=user.id, next=request.path) }}">del</a></td>
             <td>{{ user.id_card }}</td>
             <td>{{ user.username }}</td>
-            <td>{{ user.sex }}</td>
             <td>{{ user.amount }}</td>
             <td>{% if user.vip ==1 %}yes{% else %}no{% endif %}</td>
             <td>{{ user.phone }}</td>

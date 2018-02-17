@@ -36,7 +36,7 @@ class User(Base):
     password = db.Column(db.String(32))
     amount = db.Column(Numeric(10, 2), nullable=False, server_default=text("'0.00'"))
     vip = db.Column(db.Integer, nullable=True, server_default=text("'0'"))
-    sex= db.Column(db.String(80),server_default=text("'0'"))
+    dele = db.Column(db.String(80),server_default=text("'0'"))
     note = db.Column(db.String(200), nullable=True)
     create_time = db.Column(DateTime, nullable=True, server_default=text("CURRENT_TIMESTAMP"))
 

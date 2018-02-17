@@ -88,19 +88,19 @@
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="26" parent="8" name="sex">
-      <Position>8</Position>
-      <DataType>varchar(80)|0</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
-    </column>
-    <column id="27" parent="8" name="note">
+    <column id="26" parent="8" name="note">
       <Position>9</Position>
       <DataType>varchar(200)|0</DataType>
     </column>
-    <column id="28" parent="8" name="create_time">
+    <column id="27" parent="8" name="create_time">
       <Position>10</Position>
       <DataType>datetime|0</DataType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="28" parent="8" name="dele">
+      <Position>8</Position>
+      <DataType>varchar(80)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
     <index id="29" parent="8" name="phone">
       <ColNames>phone</ColNames>
