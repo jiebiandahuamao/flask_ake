@@ -1,13 +1,4 @@
 {% extends 'base.html' %}
-{#<head>#}
-{#	<meta charset="utf-8">#}
-{#	<title>文章列表--layui后台管理模板</title>#}
-{#	<meta name="renderer" content="webkit">#}
-{#	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">#}
-{#	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">#}
-{#	<meta name="apple-mobile-web-app-status-bar-style" content="black">#}
-{#	<meta name="apple-mobile-web-app-capable" content="yes">#}
-{#	<meta name="format-detection" content="telephone=no">#}
 {% block css %}
 	<link rel="stylesheet" href="{{ url_for('static',filename='layui/css/layui.css')}}" media="all" />
 	<link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
@@ -23,25 +14,18 @@
 		<div class="layui-inline">
 		    <div class="layui-input-inline">
 		    	<input type="text" name ='id_card' value="{{ formdata }}" placeholder="请输入会员卡号" class="layui-input search_input">
-		    </div>
+            </div>
+            <div class="layui-input-inline">
+                <select name="type" lay-verify="">
+                  <option value="">全部</option>
+                  <option value="1">充值</option>
+                  <option value="0">消费</option>
+                </select>
+            </div>
 		    <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
 		</div>
-{#		<div class="layui-inline">#}
-{#			<a class="layui-btn layui-btn-normal newsAdd_btn">添加文章</a>#}
-{#		</div>#}
         </form>
-{#		<div class="layui-inline">#}
-{#			<a class="layui-btn recommend" style="background-color:#5FB878">推荐文章</a>#}
-{#		</div>#}
-{#		<div class="layui-inline">#}
-{#			<a class="layui-btn audit_btn">审核文章</a>#}
-{#		</div>#}
-{#		<div class="layui-inline">#}
-{#			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>#}
-{#		</div>#}
-{#		<div class="layui-inline">#}
-{#			<div class="layui-form-mid layui-word-aux">本页面刷新后除新添加的文章外所有操作无效，关闭页面所有数据重置</div>#}
-{#		</div>#}
+
 	</blockquote>
 	<div class="layui-form news_list">
 	  	<table class="layui-table">
@@ -53,19 +37,17 @@
 				<col width="9%">
 				<col width="9%">
 				<col width="9%">
-{#				<col width="15%">#}
 		    </colgroup>
 		    <thead>
 				<tr>
-{#					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>#}
 					<th>编号</th>
                     <th >姓名</th>
 					<th>卡号</th>
 					<th>消费金额</th>
 					<th>vip</th>
-					<th>消费时间</th>
-{#					<th>操作</th>#}
-				</tr> 
+                    <th>类型</th>
+					<th>时间</th>
+				</tr>
 		    </thead>
             {% for user in pagination.items %}
 		    <tbody class="news_content"></tbody>
@@ -74,6 +56,7 @@
             <td>{{ user.id_card }}</td>
             <td>{{ user.amount }}</td>
             <td>{% if user.vip==1 %}yes{% else %}no{% endif %} </td>
+            <td>{% if user.wallet_type==1 %}充值{% else %}消费{% endif %}</td>
             <td>{{ user.create_time}}</td>
             </tbody>
             {% endfor %}

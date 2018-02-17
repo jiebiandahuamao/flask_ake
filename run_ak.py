@@ -3,10 +3,13 @@ from flask import Flask, render_template, request, flash
 from flask import abort, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import config
-import json
 from app_api.user import get_user_row_by_id, add_user, get_user_row,edit_user
 from models import User,Wallet
-from app_api.wallet import add_wallet
+from app_api.wallet import add_wallet,get_wallet_list
+from dbtools.time import get_today_time
+
+
+
 app = Flask(__name__)
 app.config.from_object(config)
 app.config['SECRET_KEY'] = '123456'
@@ -190,10 +193,41 @@ def userlist(page=1):
 def changePwd():
     return render_template('user/changePwd.html')
 
+#统计数据
+@app.route('/countdata')
+def count_data():
 
-@app.route('/message')
-def message():
-    return render_template('message/message.html')
+    start_time,end_time = get_today_time()
+
+    #今日消费金额
+    con = [start_time<=Wallet.create_time,
+           end_time >= Wallet.create_time,
+           Wallet.wallet_type == 0
+        ]
+    get_wallet_todayrows = get_wallet_list(*con)
+    waller_todaycount = sum(i.amount for i in get_wallet_todayrows)
+
+    # 今日充值金额
+    cons = [start_time <= Wallet.create_time,
+           end_time >= Wallet.create_time,
+           Wallet.wallet_type == 1
+           ]
+    get_addwallet_todayrows = get_wallet_list(*cons)
+    addwaller_todaycount = sum(i.amount for i in get_addwallet_todayrows)
+
+
+    #消费金额
+    get_wallet_rows = get_wallet_list(Wallet.wallet_type==0)
+    wallte_count = sum(i.amount for i in get_wallet_rows)
+
+    #充值金额
+    get_add_rows = get_wallet_list(Wallet.wallet_type == 1)
+    wallteadd_count = sum(i.amount for i in get_add_rows)
+
+
+
+    return render_template('count_data/count_data.html',wallte_count=wallte_count,wallteadd_count=wallteadd_count,
+                           waller_todaycount=waller_todaycount,addwaller_todaycount=addwaller_todaycount)
 
 
 @app.route('/newsadd')
@@ -206,11 +240,14 @@ def newsadd():
 def wallet_list(page=1):
 
     data = request.args.get('id_card','', type=str)
+    type = request.args.get('type', '', type=str)
     # 返回
     formdata = data
     con = []
     if data:
         con.append(Wallet.id_card==data)
+    if type:
+        con.append(Wallet.wallet_type==type)
     try:
         pagination = Wallet.query. \
             filter(*con). \
@@ -273,10 +310,41 @@ def wallte():
 @app.route('/add_wallte', methods=['GET', 'POST'])
 def add_wallte():
 
-    data = request.args.get('add_money', '', type=str)
-    print data
-    return 0
+    # add_data = request.args.get('add_money', '', type=str)
+    # user_id = request.args.get('user_id', '', type=int)
+    if request.method == 'POST':
 
+        add_data = request.form['add_money']
+        user_id = request.form['user_id']
+
+        user_info = get_user_row_by_id(user_id)
+        formdata = user_info.id_card if user_info else ''
+
+        if user_info:
+            user_data = {
+                'amount':float(user_info.amount) + float(add_data)
+            }
+            edit_user(user_id, user_data)
+
+            wallet_data = {
+                'username': user_info.username,
+                'id_card': int(user_info.id_card),
+                'amount': float(add_data),
+                'vip': user_info.vip,
+                'wallet_type':1,    #0消费,1充值
+            }
+            result = add_wallet(wallet_data)
+            if result:
+                flash(u'会员%s成功充值%s元' % (user_info.username,add_data))
+            else:
+                flash(u'充值失败!')
+        else:
+            flash(u'无此用户信息')
+    else:
+        user_info = ''
+        formdata = ''
+
+    return render_template('main.html', user_info=user_info,formdata=formdata)
 
 if __name__ == '__main__':
     app.run(debug=True)

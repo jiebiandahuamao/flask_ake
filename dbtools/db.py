@@ -49,6 +49,15 @@ def get_row(model_name, *args, **kwargs):
         db.session.rollback()
         raise e
 
+def get_list(model_name, *args, **kwargs):
+
+    try:
+        row = db.session.query(model_name).filter(*args).filter_by(**kwargs).all()
+        db.session.commit()
+        return row
+    except Exception as e:
+        db.session.rollback()
+        raise e
 
 def add(model_name, data):
     """

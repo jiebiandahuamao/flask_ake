@@ -33,7 +33,7 @@ layui.config({
     })
 
     //加载数据
-    $.get("../../json/message.json",function(data){
+    $.get("../../json/count_data.json",function(data){
         var msgHtml = '',msgReply;
         for(var i=0; i<data.length; i++){
             if(data[i].msgReply && data[i].msgReply.length != 0){
@@ -87,7 +87,7 @@ layui.config({
                 },500)
                 var body = layui.layer.getChildFrame('body', index);
                 //加载回复信息
-                $.get("../../json/message.json",function(data){
+                $.get("../../json/count_data.json",function(data){
                     var msgReplyHtml = '',msgReply;
                     for(var i=0; i<data.length; i++){
                         if(data[i].msgReply && data[i].msgReply.length != 0){

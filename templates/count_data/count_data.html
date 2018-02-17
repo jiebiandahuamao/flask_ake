@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='layui/css/layui.css') }}" media="all"/>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/user.css') }}" media="all"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" media="all"/>
+{% endblock %}
+{% block main %}
+
+    <body class="childrenBody">
+    <blockquote class="layui-elem-quote news_search">
+        <div class="layui-inline">
+            <form class="layui-form" method="get" action="{{ url_for('count_data') }}">
+                <div class="layui-input-inline">
+                    <input type="text" name="idphone" value="{{ formdata }}" placeholder="卡号/电话"
+                           class="layui-input search_input">
+                </div>
+                <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
+            </form>
+        </div>
+    </blockquote>
+    <div class="layui-form users_list">
+        <table class="layui-table" style="margin-top: 30px">
+            <thead>
+            <tr>
+                <th>今日消费金额</th>
+                <th>今日充值金额</th>
+            </tr>
+            </thead>
+            <tbody class="users_content">
+            <td>{{ waller_todaycount }}</td>
+            <td>{{ addwaller_todaycount }}</td>
+            </tbody>
+        </table>
+        <table class="layui-table" style="margin-top: 50px">
+            <thead>
+            <tr>
+                <th>历史消费金额</th>
+                <th>历史充值金额</th>
+            </tr>
+            </thead>
+            <tbody class="users_content">
+            <td>{{ wallte_count }}</td>
+            <td>{{ wallteadd_count }}</td>
+            </tbody>
+        </table>
+    </div>
+    </body>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+{% endblock %}

@@ -10,7 +10,7 @@
 
 
 from models import Wallet
-from dbtools.db import get_row, get_row_by_id, add, edit, delete
+from dbtools.db import get_row, get_row_by_id, add, edit, delete,get_list
 
 
 def get_wallet_row_by_id(wallet_id):
@@ -30,6 +30,15 @@ def get_wallet_row(*args, **kwargs):
     :return: None/object
     """
     return get_row(Wallet, *args, **kwargs)
+
+def get_wallet_list(*args, **kwargs):
+    """
+    获取钱包信息list
+    :param args:
+    :param kwargs:
+    :return: None/object
+    """
+    return get_list(Wallet, *args, **kwargs)
 
 
 def add_wallet(wallet_data):

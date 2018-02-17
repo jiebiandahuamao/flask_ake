@@ -42,13 +42,13 @@
 			</a>
 		</div>
 		<div class="panel col">
-			<a href="javascript:;" data-url="page/img/images.html">
+			<a href="{{url_for('count_data')}}" data-url="page/img/images.html">
 				<div class="panel_icon" style="background-color:#5FB878;">
 					<i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>
 				</div>
 				<div class="panel_word imgAll">
 					<span></span>
-					<cite>待扩展</cite>
+					<cite>统计数据</cite>
 				</div>
 			</a>
 		</div>
@@ -131,7 +131,7 @@
 {#    <script type="text/javascript" src="{{ url_for('static',filename='js/index.js')}}"></script>#}
     <script>
         function add_money() {
-{#            alert(123);#}
+            alert('{{ user_info.id }}');
             layer.open({
             type: 1
             ,title: false //不显示标题栏
@@ -141,7 +141,7 @@
             ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
             ,moveType: 1 //拖拽模式，0或者1
             ,content: '<div style="padding: 20px; line-height: 22px; background-color: #1AA094;">充值金额' +
-                '<br><form class="layui-form" method=get action="{{ url_for('add_wallte') }}"><input type=text class="layui-input" name="add_money"><div class="layui-input-block"><button class="layui-btn" type=submit>确定</button><button type=reset class="layui-btn layui-btn-primary">重置</button></div></div></form>'
+                '<br><form class="layui-form" method=post action="{{ url_for('add_wallte')}}"><input type=text class="layui-input" name="add_money"><input type=hidden  name="user_id" value="{{ user_info.id }}"><div class="layui-input-block"><button class="layui-btn" type=submit>确定</button><button type=reset class="layui-btn layui-btn-primary">重置</button></div></div></form>'
             });
         }
     </script>

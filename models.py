@@ -47,4 +47,5 @@ class Wallet(Base):
     id_card = db.Column(db.Integer, nullable=False)
     amount = db.Column(Numeric(10, 2), nullable=False, server_default=text("'0.00'"))
     vip = db.Column(db.Integer, nullable=True, server_default=text("'0'"))
+    wallet_type = db.Column(db.Integer, nullable=True, server_default=text("'0'"))
     create_time = db.Column(DateTime, nullable=True, server_default=text("CURRENT_TIMESTAMP"))

@@ -49,7 +49,7 @@ layui.config({
 	)
 
 	//新消息
-	$.get("../json/message.json",
+	$.get("../json/count_data.json",
 		function(data){
 			$(".newMessage span").text(data.length);
 		}
