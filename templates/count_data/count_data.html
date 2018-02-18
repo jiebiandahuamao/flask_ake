@@ -29,8 +29,8 @@
             </tr>
             </thead>
             <tbody class="users_content">
-            <td>{{ waller_todaycount }}</td>
-            <td>{{ addwaller_todaycount }}</td>
+            <td>{{ wallet_today['money'] }}元/{{ wallet_today['count'] }}单</td>
+            <td>{{ addwallet_today['money'] }}元/{{ addwallet_today['count'] }}单</td>
             </tbody>
         </table>
         <table class="layui-table" style="margin-top: 50px">
@@ -41,8 +41,20 @@
             </tr>
             </thead>
             <tbody class="users_content">
-            <td>{{ wallte_count }}</td>
-            <td>{{ wallteadd_count }}</td>
+            <td>{{ wallte_his['money']}}元/{{wallte_his['count'] }}单</td>
+            <td>{{ addwallte_his['money']}}元/{{addwallte_his['count'] }}单</td>
+            </tbody>
+        </table>
+         <table class="layui-table" style="margin-top: 30px">
+            <thead>
+            <tr>
+                <th>会员人数</th>
+                <th>vip人数</th>
+            </tr>
+            </thead>
+            <tbody class="users_content">
+            <td>{{ get_user_count }}</td>
+            <td>{{ get_vipuser_count }}</td>
             </tbody>
         </table>
     </div>

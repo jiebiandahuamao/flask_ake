@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from dbtools.db import get_row_by_id, get_row, add, edit, delete
+from dbtools.db import get_row_by_id, get_row, add, edit, delete, get_list
 from models import User
 
 
@@ -21,6 +21,15 @@ def get_user_row(*args, **kwargs):
     :return: None/object
     """
     return get_row(User, *args, **kwargs)
+
+def get_user_list(*args, **kwargs):
+    """
+    获取user信息list
+    :param args:
+    :param kwargs:
+    :return: None/object
+    """
+    return get_list(User, *args, **kwargs)
 
 
 def add_user(user_data):

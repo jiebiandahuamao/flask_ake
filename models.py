@@ -1,5 +1,6 @@
 #coding=utf-8
 from flask import Flask
+from flask_login import UserMixin
 from sqlalchemy import text,DateTime,Numeric
 from flask_sqlalchemy import SQLAlchemy
 import config
@@ -20,7 +21,7 @@ def to_dict(self):
     return {c.name: getattr(self, c.name, None) for c in self.__table__.columns}
 
 Base.to_dict = to_dict
-class Admin(Base):
+class Admin(Base,UserMixin):
     __tablename__ = 'admins'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
