@@ -344,7 +344,7 @@ def wallte():
             }
             result = add_wallet(wallet_data)
             if result:
-                flash(u'用户消费%s元' % wallet)
+                flash(u'用户%s消费%s元' % (user_info.username,wallet))
         else:
             flash(u'用户剩余金额不够了!')
     else:
