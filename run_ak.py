@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding:utf8 -*-
 from flask import Flask, render_template, request, flash
 from flask import abort, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -122,7 +122,7 @@ def userInfo():
 
         if flag == True:
             userdata = {
-                'username': username,
+                'username': username.decode(),
                 'id_card': id_card,
                 'phone': phone,
                 'amount': amount,
